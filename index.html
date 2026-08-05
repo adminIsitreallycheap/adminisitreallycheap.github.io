@@ -77,18 +77,32 @@
 </footer>
 
 <script>
-/* Keep the homepage gap bar in sync with the base case on the analysis page.
-   Update these two numbers when the base case changes. */
+/* Homepage card gap bar. Falls back to the reference price if the
+   Action-refreshed price.json is missing. Update `value` when the
+   base-case NAV changes. */
 (function () {
-  var price = 69.7;  /* GBp — reference market price (close 24 Jun 2026) */
   var value = 114;   /* GBp — current risked NAV at $70 Brent */
-  var el = document.getElementById("gap-rkh");
-  var hi = Math.max(price, value) * 1.1;
-  el.style.setProperty("--price-pct", (price / hi * 100).toFixed(1) + "%");
-  el.style.setProperty("--value-pct", (value / hi * 100).toFixed(1) + "%");
-  if (value < price) el.classList.add("negative");
-  document.getElementById("gap-rkh-price").textContent = price + "p";
-  document.getElementById("gap-rkh-value").textContent = value + "p";
+
+  function render(price) {
+    var el = document.getElementById("gap-rkh");
+    var hi = Math.max(price, value) * 1.1;
+    el.style.setProperty("--price-pct", (price / hi * 100).toFixed(1) + "%");
+    el.style.setProperty("--value-pct", (Math.max(value, price) / hi * 100).toFixed(1) + "%");
+    el.classList.toggle("negative", value < price);
+    document.getElementById("gap-rkh-price").textContent = price + "p";
+    document.getElementById("gap-rkh-value").textContent = value + "p";
+  }
+
+  render(69.7); /* reference: close of 24 Jun 2026 */
+
+  fetch("price.json?nc=" + Date.now(), { cache: "no-store" })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (d) {
+      if (!d || !d.price) return;
+      var p = d.currency === "GBP" ? d.price * 100 : d.price;
+      render(Math.round(p * 10) / 10);
+    })
+    .catch(function () {});
 })();
 </script>
 
