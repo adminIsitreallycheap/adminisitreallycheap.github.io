@@ -1,0 +1,45 @@
+name: Update RKH price
+
+on:
+  schedule:
+    # Every 20 min, Mon-Fri, 07:00-16:59 UTC (covers LSE 08:00-16:30 London in summer and winter)
+    - cron: '5,25,45 7-16 * * 1-5'
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  price:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch delayed quote
+        run: |
+          UA="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
+          URL1="https://query1.finance.yahoo.com/v8/finance/chart/RKH.L?interval=1d&range=1d"
+          URL2="https://query2.finance.yahoo.com/v8/finance/chart/RKH.L?interval=1d&range=1d"
+          JSON=$(curl -fsS -A "$UA" "$URL1" || curl -fsS -A "$UA" "$URL2")
+          PRICE=$(echo "$JSON" | jq -r '.chart.result[0].meta.regularMarketPrice')
+          TIME=$(echo "$JSON" | jq -r '.chart.result[0].meta.regularMarketTime')
+          CURR=$(echo "$JSON" | jq -r '.chart.result[0].meta.currency')
+          if [ -z "$PRICE" ] || [ "$PRICE" = "null" ]; then
+            echo "No price in response, leaving price.json untouched"
+            exit 0
+          fi
+          printf '{"symbol":"RKH.L","price":%s,"currency":"%s","time":%s}\n' \
+            "$PRICE" "$CURR" "$TIME" > price.json
+          cat price.json
+
+      - name: Commit if changed
+        run: |
+          git config user.name "price-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add price.json
+          if git diff --cached --quiet; then
+            echo "Price unchanged, nothing to commit"
+          else
+            git commit -m "Update RKH price"
+            git push
+          fi
