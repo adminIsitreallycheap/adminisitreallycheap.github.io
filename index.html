@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Is it really cheap? — Independent deep-dive valuations</title>
+<meta name="description" content="Independent, model-driven equity research. One question per company: is the market price really cheap against a best-estimate intrinsic value? Play with the assumptions yourself.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">is it really cheap<span class="q">?</span></a>
+    <span class="tag">Independent valuation research</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <h1>Deep research on stocks that look <em>too cheap.</em></h1>
+    <p class="lede">
+      I take one company at a time and work out what it is worth. The model
+      behind each number sits on the page itself, so if you disagree with an
+      assumption, change it and watch the value move. Whether it is really
+      cheap is for you to decide.
+    </p>
+  </section>
+
+  <div class="eyebrow">Current analyses</div>
+
+  <a class="dossier" href="rockhopper.html" id="card-rkh">
+    <div class="row">
+      <h2>Rockhopper Exploration</h2>
+      <span class="ticker">AIM: RKH &middot; Oil &amp; gas, Falkland Islands</span>
+    </div>
+    <p class="oneline">
+      A 917-million-barrel oil development in the Falkland Islands,
+      sanctioned in December 2025 and fully funded, with first oil due March
+      2028. My risked NAV is about 114p at $70 Brent against a share price
+      near 70p, and it grows as the project de-risks.
+    </p>
+    <div class="gapbar" id="gap-rkh">
+      <div class="track">
+        <div class="fill"></div>
+        <div class="gap"></div>
+      </div>
+      <div class="legend">
+        <span>Price <strong id="gap-rkh-price">—</strong></span>
+        <span>Best-estimate value <strong id="gap-rkh-value">—</strong></span>
+      </div>
+    </div>
+  </a>
+
+  <div class="eyebrow">About this site</div>
+  <p style="max-width:60ch; color:var(--ink-soft); font-size:0.95rem;">
+    One author, writing anonymously. I usually hold positions in the
+    companies I write about and say so in each analysis. Nothing here is
+    advice. If you think one of my numbers is wrong, the models are
+    interactive so you can put in your own.
+  </p>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><strong>Disclaimer.</strong> Nothing on this site is investment advice or a
+    recommendation to buy or sell any security. All figures are estimates that
+    may be wrong. The author may hold positions in securities discussed. Do
+    your own research.</p>
+    <p>&copy; 2026 isitreallycheap.com</p>
+  </div>
+</footer>
+
+<script>
+/* Keep the homepage gap bar in sync with the base case on the analysis page.
+   Update these two numbers when the base case changes. */
+(function () {
+  var price = 69.7;  /* GBp — reference market price (close 24 Jun 2026) */
+  var value = 114;   /* GBp — current risked NAV at $70 Brent */
+  var el = document.getElementById("gap-rkh");
+  var hi = Math.max(price, value) * 1.1;
+  el.style.setProperty("--price-pct", (price / hi * 100).toFixed(1) + "%");
+  el.style.setProperty("--value-pct", (value / hi * 100).toFixed(1) + "%");
+  if (value < price) el.classList.add("negative");
+  document.getElementById("gap-rkh-price").textContent = price + "p";
+  document.getElementById("gap-rkh-value").textContent = value + "p";
+})();
+</script>
+
+</body>
+</html>

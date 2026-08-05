@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Rockhopper Exploration — is it really cheap?</title>
+<meta name="description" content="An interactive risked-NAV valuation of Rockhopper Exploration (AIM: RKH), built on NSAI reserves for the fully funded Sea Lion development. Pick an oil price and a point in time, and see what the equity should be worth.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400..700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <a class="brand" href="index.html">is it really cheap<span class="q">?</span></a>
+    <span class="tag">Analysis 01</span>
+  </div>
+</header>
+
+<main class="wrap">
+
+<article>
+  <p class="meta">ANALYSIS 01 &middot; JUNE 2026 &middot; OIL &amp; GAS &middot; AIM: RKH</p>
+  <h1 class="title">Rockhopper Exploration</h1>
+  <p class="standfirst">
+    Rockhopper spent fifteen years as the owner of a big oil discovery that
+    nobody would finance. That ended in December 2025, when the Sea Lion
+    field in the Falkland Islands reached a fully funded investment
+    decision. First oil is due March 2028. The share price has not caught
+    up.
+  </p>
+
+  <!-- ============ VERDICT ============ -->
+  <div class="verdict" id="verdict">
+    <span class="badge" id="verdict-badge">Really cheap (at these assumptions)</span>
+    <div class="figures">
+      <div class="fig">
+        <div class="num" id="out-value">—</div>
+        <div class="lbl">Risked NAV / share</div>
+      </div>
+      <div class="fig">
+        <div class="num" id="out-price">—</div>
+        <div class="lbl">Market price (editable below)</div>
+      </div>
+      <div class="fig">
+        <div class="num up" id="out-upside">—</div>
+        <div class="lbl">Implied upside</div>
+      </div>
+    </div>
+    <div class="gapbar" id="gapbar">
+      <div class="track">
+        <div class="fill"></div>
+        <div class="gap"></div>
+      </div>
+      <div class="legend">
+        <span>Price <strong id="leg-price">—</strong></span>
+        <span>Risked NAV <strong id="leg-value">—</strong></span>
+      </div>
+    </div>
+    <p class="note">
+      The verdict comes straight from the model below. Pick a Brent price
+      and a point in the project timeline and it recomputes. Future dates
+      show what the equity should be worth if the schedule holds, as risk
+      and the 10% discount unwind.
+    </p>
+  </div>
+
+  <!-- ============ MODEL ============ -->
+  <div class="eyebrow">Explore the valuation</div>
+  <div class="model" id="model">
+
+    <h3>Brent oil price</h3>
+    <div class="ctrl">
+      <label for="brent">Long-run Brent assumption <span class="val">$<span id="v-brent"></span>/bbl</span></label>
+      <input type="range" id="brent" min="60" max="100" step="1">
+      <div class="hint">Rule of thumb from the model: each $10/bbl is worth roughly 20p of NAV.</div>
+    </div>
+
+    <h3>Point in time</h3>
+    <div class="seg" id="timeseg" role="radiogroup" aria-label="Valuation date">
+      <label><input type="radio" name="t" value="now" checked><span>Now (mid-2026)</span></label>
+      <label><input type="radio" name="t" value="firstoil"><span>First oil (2028)</span></label>
+      <label><input type="radio" name="t" value="fpso2"><span>2nd FPSO (2030)</span></label>
+      <label><input type="radio" name="t" value="y2032"><span>Plateau (2032)</span></label>
+    </div>
+    <div class="ctrl">
+      <div class="hint">Future values assume the development stays on
+      schedule. The chance of development rises up the SPE-PRMS maturity
+      ladder and the 10% discount unwinds as cash flows draw nearer. Read
+      them as conditional values, valid only if the schedule holds.</div>
+    </div>
+
+    <h3>Compare with the market</h3>
+    <div class="ctrl">
+      <label for="price">Current market price (GBp)</label>
+      <input type="number" id="price" min="1" max="2000" step="0.1">
+      <div class="hint">Reference price in the analysis: 69.70p (close, 24 June 2026).
+      Check the live RKH quote and type it in. The verdict updates instantly.</div>
+    </div>
+
+    <div class="actions">
+      <button class="reset" id="reset">Reset to base case ($70, now)</button>
+    </div>
+  </div>
+
+  <!-- ============ LAYERED BACKGROUND ============ -->
+  <div class="eyebrow">The analysis</div>
+
+  <details class="chunk" open>
+    <summary>The thesis, briefly</summary>
+    <div class="body">
+      <p>Rockhopper owns 35% of Sea Lion, a discovered field of 917 million
+      barrels gross (2C), about 321 million net. The project reached FID on
+      10 December 2025 and financial close on 22 December, fully funded at
+      sanction, which almost never happens in this industry. At 69.70p the
+      shares trade well below my current risked NAV of roughly 114p at $70
+      Brent (134p at $80). If the schedule holds, that NAV grows to about
+      182p at first oil and toward 340p in the early 2030s. The market is
+      still pricing the stranded explorer of the last fifteen years, and it
+      reads the interest-free Navitas loan as a burden when in present-value
+      terms it subsidises the equity. The de-risking from here happens on a
+      known schedule, milestone by milestone.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>Why the opportunity exists</summary>
+    <div class="body">
+      <p>For fifteen years Rockhopper was the company with the discovery
+      that could not get financed, and a reputation like that outlives the
+      facts. The facts have changed. Sea Lion is sanctioned, financial close
+      has occurred, the FPSO is under refurbishment, and work on the islands
+      has begun. Most of the risk stack that justified a deep discount
+      (financing above all, but also sanction and political approval) has
+      been removed for Phase 1.</p>
+      <p>The other part is horizon. There is no production and no earnings
+      yet, so anyone screening on current numbers sees nothing. The
+      de-risking happens on a known schedule over the next two years, and
+      the equity should re-rate as each milestone gets ticked off. Waiting
+      through that is the price of admission.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>The company &amp; how it got here</summary>
+    <div class="body">
+      <p>Rockhopper discovered Sea Lion in 2010 and farmed out to Premier
+      Oil. When Premier was acquired by Harbour Energy in 2021, Harbour sold
+      its Falklands interests to Navitas Petroleum, which now operates the
+      field with 65%. In between came an oil-price collapse, COVID, and a
+      near-decade wait for financing and political certainty. The market has
+      been disappointed before, which goes some way to explaining the
+      price.</p>
+      <p>After financial close, Rockhopper is debt-free at the corporate
+      level aside from its share of project-level senior debt. Its equity
+      contribution to Phase 1 was fully covered through a share issue
+      admitted in late December 2025. Separately, the company continues its
+      Ombrina Mare arbitration against Italy. The original €190m award was
+      annulled on procedural grounds, not substantive ones, and has been
+      re-filed. Any recovery is a bonus and sits outside my base case.</p>
+      <table class="facts">
+        <tr><td>Listing</td><td>AIM: RKH</td></tr>
+        <tr><td>Working interest, Sea Lion</td><td>35%</td></tr>
+        <tr><td>Operator</td><td>Navitas Petroleum (65%)</td></tr>
+        <tr><td>FID / financial close</td><td>10 / 22 Dec 2025</td></tr>
+        <tr><td>First oil target</td><td>March 2028</td></tr>
+        <tr><td>Fully diluted shares</td><td>~912m</td></tr>
+      </table>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>The asset: Sea Lion</summary>
+    <div class="body">
+      <p>Sea Lion sits in the North Falkland Basin, about 220 km north of
+      the islands in roughly 450 m of water. The development is a phased
+      subsea tie-back to a redeployed FPSO. Both the engineering and the
+      weather are broadly comparable to the North Sea, so this is well
+      understood territory rather than a frontier project.</p>
+      <p>The field splits into three areas. The Northern Development Area is
+      the sanctioned core: NDA Phases 1 and 2 are what reached FID, holding
+      314 mmbbl gross (110 net) of 2P reserves. Phase 1 means 11 wells
+      producing around 50,000 bbl/d gross; Phase 2 adds roughly 12 step-out
+      wells about three years after first oil, tied back to the same FPSO.
+      The Central Development Area plus NDA Phase 3 hold the
+      development-pending 2C resources (323 mmbbl gross, 113 net), which
+      would need a second FPSO. The Southern Development Area is the
+      unplanned upside, mainly the Isobel/Elaine fan complex of 181 mmbbl
+      gross with development on hold, plus mapped prospectivity.</p>
+      <p>Across the whole field the gross recoverable base is 554 mmbbl (1C),
+      917 mmbbl (2C) and 1.56 bn bbl (3C), and each appraisal so far has
+      revised the estimates upward. The Falkland Islands Government has
+      approved the Field Development Plan for Phases 1 and 2 and granted a
+      35-year exploitation licence.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>Navitas &amp; the financing structure</summary>
+    <div class="body">
+      <p>Navitas Petroleum, one of the largest energy companies on the Tel
+      Aviv Stock Exchange, specialises in proven discoveries that got stuck
+      and need one last push into production. Its most recent delivery was
+      the Shenandoah development in the Gulf of Mexico. Navitas turned Sea
+      Lion from a stalled discovery into a sanctioned development, and its
+      Israeli institutional base anchored Rockhopper's capital raise. I see
+      no downside in Rockhopper not being operator: it keeps 35% of a
+      project run by a motivated, well-capitalised partner without carrying
+      the cost and complexity of operatorship.</p>
+      <p>The financing gets misread a lot. The quoted "$2.1bn" is the gross
+      Phase 1 funding requirement for the whole consortium, including
+      financing costs. It is not Rockhopper's number. Two-thirds of
+      Rockhopper's equity share of Phase 1 is carried by an interest-free
+      loan from Navitas, repaid only after the senior debt, out of
+      Rockhopper's share of project cash flows. An interest-free loan repaid
+      from your own future cash flows costs far less in present-value terms
+      than its face amount. Simple "NPV minus all debt" math treats it like
+      ordinary debt and overstates the burden, which is why I handle the
+      financing explicitly in the valuation.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>How the valuation works</summary>
+    <div class="body">
+      <p>The starting point is the independent NSAI reserves report,
+      effective 31 December 2025. It gives the 2P reserves an NPV10 of
+      $965.8m net to Rockhopper, and the development-pending 2C resources a
+      separate unrisked NPV10 of $1.20bn, about $2.17bn combined. As NSAI
+      itself cautions, those layers carry different risk and you cannot just
+      add them up. My model risks them properly.</p>
+      <p>I work unlevered first and add financing explicitly. NSAI's cash
+      flows already include the physical capex, so the naive "NPV minus
+      debt" would deduct the build cost twice: the debt is what pays for
+      capex that already sits inside the NPV. What I add instead are the
+      genuine financing effects in present-value terms, meaning the benefit
+      of the interest-free Navitas loan, less the pre-FID loan interest,
+      less senior-debt interest and fees. The net of those is a modest
+      adjustment.</p>
+      <p>I then split the value into three layers and risk each one on its
+      own. Phase 1 is sanctioned, funded and in execution. Phase 2 sits in
+      the same approved plan but has no separate investment decision and
+      gets funded out of Phase 1's cash flows. The development-pending 2C is
+      a third, lower-probability layer. Each gets its own chance of
+      development, and that chance rises over time, following the industry's
+      SPE-PRMS maturity ladder from "pending" to "sanctioned" to "on
+      production". Today I put Phase 1 at 0.85, rising to 0.97 at first oil
+      and 1.0 in production; Phase 2 at 0.50; the 2C at 0.20, rising around
+      the assumed second-FPSO timing. These are judgement calls, and higher
+      choices give higher values.</p>
+      <p>Risk is applied asymmetrically. Future revenue is weighted by the
+      chance of development, and so is capex you have not yet spent (if a
+      phase dies, you stop paying for it), but capex already spent is sunk
+      and does not come back. Close to first oil, when the build cost is
+      largely sunk but production has not started, this makes the downside
+      heavier than a symmetric weight would suggest. I think that is the
+      more honest treatment of where the risk actually sits.</p>
+      <p>On top of the NSAI-based layers I add a small Isobel/Elaine upside
+      layer at roughly $6/boe, in line with broker practice, worth about
+      8 to 10p per share. The sum of the layers, plus cash and the financing
+      adjustment, is divided across roughly 912m fully diluted shares.
+      Future-dated values rise both because the chance of development
+      climbs and because the 10% discount unwinds as cash flows draw
+      nearer.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>The numbers</summary>
+    <div class="body">
+      <p>Expected risked NAV per share (pence), net to Rockhopper's 35%,
+      across a $60–100 Brent range. This is the exact table the interactive
+      tool above interpolates:</p>
+      <table class="facts">
+        <tr><td><strong>Brent</strong></td><td>$60 · $70 · $80 · $90 · $100</td></tr>
+        <tr><td>Now (mid-2026)</td><td>93 · 114 · 134 · 155 · 176</td></tr>
+        <tr><td>First oil (2028)</td><td>155 · 182 · 211 · 239 · 267</td></tr>
+        <tr><td>2nd FPSO (2030)</td><td>239 · 280 · 321 · 362 · 403</td></tr>
+        <tr><td>Plateau (2032)</td><td>292 · 340 · 388 · 436 · 483</td></tr>
+      </table>
+      <p>At $70 Brent my current risked NAV of about 114p compares with
+      Canaccord Genuity's 130p Buy target of 3 June 2026, raised from 113p.
+      Phase 1, the sanctioned and funded part, makes up roughly half of
+      today's project value; Phase 2 and the contingent 2C each add about a
+      quarter. By first oil the mix shifts. Most of Phase 1 is already
+      priced in by then, so the incremental value creation comes from
+      de-risking Phase 2 and the 2C over time.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>The second FPSO</summary>
+    <div class="body">
+      <p>In May 2026 Navitas signed a non-binding MOU for a second FPSO that
+      could add 125,000 bbl/d gross, 43,750 net to Rockhopper. That vessel
+      is what would unlock the development-pending 2C layer, and combined
+      with Phases 1 and 2 it would take peak production toward 180,000 bbl/d
+      gross. It is also the clearest overhang on the stock, because it is
+      not financed yet, and I suspect that partly explains the current
+      price.</p>
+      <p>Rockhopper's 35% share of a second vessel could be funded several
+      ways: a new equity issue (dilutive), warrant exercises, Phase 1
+      first-oil cash flows, a repeat of the interest-free Navitas loan
+      (which would be the friendliest to shareholders), or a third partner
+      buying in. In practice it may be a mix, or something nobody has
+      floated yet. Navitas has been financially creative before. Because the
+      outcome is open, I left the second FPSO out of the valuation numbers
+      entirely; it appears only as the assumed timing around which the 2C
+      layer's chance of development rises.</p>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>What is not in the base case</summary>
+    <div class="body">
+      <p>The valuation leaves out, or barely values, several things that
+      could turn out to matter:</p>
+      <ul>
+        <li>Ombrina Mare. The annulled €190m award against Italy has been
+        re-filed, and any recovery would be a straight bonus.</li>
+        <li>The southern-basin and satellite structures, beyond the small
+        Isobel/Elaine layer I already include.</li>
+        <li>Associated gas, which NSAI values at zero absent a gas
+        market.</li>
+        <li>M&amp;A. Once Sea Lion produces, a larger company may prefer to own
+        the 35% outright rather than partner with a small AIM company for
+        decades, and that could crystallise value before first oil.</li>
+        <li>Any acceleration of the contingent resources via the second
+        FPSO, which I deliberately kept out of the numbers.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>Risks</summary>
+    <div class="body">
+      <p>Plenty of risk has come off the table, but not all of it. The ones
+      I weigh most:</p>
+      <ul>
+        <li>Execution. A remote offshore project: FPSO refurbishment,
+        drilling, logistics and weather all carry schedule risk. Many key
+        contracts are signed, which reduces the uncertainty without removing
+        it.</li>
+        <li>Dilution. Funding for the second FPSO is not arranged. A new
+        equity issue would dilute, and selling down the working interest
+        would shrink per-share cash flows. To me this is the clearest
+        near-term overhang.</li>
+        <li>Oil price. Each $10/bbl is worth roughly 20p of NAV. A sustained
+        move toward $60 narrows the upside materially, although the project
+        stays economic thanks to a low break-even.</li>
+        <li>Early takeover. A single-asset vehicle can get acquired before
+        it captures full value. Whether that counts as a risk depends on the
+        price.</li>
+        <li>Falklands geopolitics. Argentina continues to dispute
+        sovereignty. This is old news that has not prevented sanction or
+        financing, and in a 2013 referendum 99.8% of islanders voted to
+        remain a UK Overseas Territory, but the dispute is real.</li>
+        <li>Financing drag. The post-FID Navitas loan is interest-free but
+        gets repaid from 85% of Rockhopper's share of cash flows, which
+        delays free cash flow to equity in the early producing years.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>Catalysts &amp; milestones</summary>
+    <div class="body">
+      <p>The main catalyst is first oil, targeted for March 2028, but on a
+      single-asset developer the re-rating tends to come in steps:</p>
+      <ul>
+        <li>2026: the AGM of 30 June, which proposes adding a CFO and an
+        Israeli-market non-executive director. The company frames this as
+        opening access to institutional capital for the full development, so
+        I read it as a signal on the second-FPSO financing route as much as
+        governance. Also this year: sail-away and upgrade of the Aoka Mizu
+        FPSO and its mobilisation toward the Falklands, the start of onshore
+        and offshore preparation work, and any firming of the second-FPSO
+        MOU into a binding agreement.</li>
+        <li>2027: start of drilling, targeted for early in the year, and
+        progress through the first Phase 1 wells. Possibly an FID on the 2C
+        resources. Navitas went from MOU to FID in about a year last time,
+        so late 2027 is plausible, and it would be a major de-risking step
+        for a layer that today carries only a 0.20 chance of development in
+        my model. A third partner coming in is another possibility.</li>
+        <li>2028: FPSO arrival on the field, hook-up and commissioning,
+        first oil in March, and the switch to producer status.</li>
+        <li>Non-core: the re-filed Ombrina Mare arbitration.</li>
+      </ul>
+    </div>
+  </details>
+
+  <details class="chunk">
+    <summary>Sources &amp; disclosure</summary>
+    <div class="body">
+      <p>Primary sources: Rockhopper company announcements, annual reports
+      and results presentations; the NSAI reserves report effective 31
+      December 2025 as disclosed by the company; operator updates from
+      Navitas Petroleum. The valuation model is my own, built on NSAI's
+      annual after-tax net-to-Rockhopper cash flows. Reference share price:
+      69.70p, close of 24 June 2026. I make mistakes, so verify anything
+      important against the original filings.</p>
+      <p>I may hold a position in RKH. This is not investment advice.</p>
+    </div>
+  </details>
+
+</article>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <p><strong>Disclaimer.</strong> Nothing on this site is investment advice or a
+    recommendation to buy or sell any security. All figures are estimates that
+    may be wrong. The author may hold positions in securities discussed. Do
+    your own research.</p>
+    <p>&copy; 2026 isitreallycheap.com &middot; <a href="index.html">All analyses</a></p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  /* Risked NAV per share (GBp) from the valuation model,
+     at Brent $60/$70/$80/$90/$100 — Table 1 of the analysis. */
+  var NAV = {
+    now:      [93, 114, 134, 155, 176],
+    firstoil: [155, 182, 211, 239, 267],
+    fpso2:    [239, 280, 321, 362, 403],
+    y2032:    [292, 340, 388, 436, 483]
+  };
+  var BRENTS = [60, 70, 80, 90, 100];
+  var BASE = { brent: 70, t: "now", price: 69.7 };
+
+  function el(id) { return document.getElementById(id); }
+
+  function navAt(t, brent) {
+    var row = NAV[t];
+    if (brent <= BRENTS[0]) return row[0];
+    if (brent >= BRENTS[BRENTS.length - 1]) return row[row.length - 1];
+    for (var i = 0; i < BRENTS.length - 1; i++) {
+      if (brent >= BRENTS[i] && brent <= BRENTS[i + 1]) {
+        var f = (brent - BRENTS[i]) / (BRENTS[i + 1] - BRENTS[i]);
+        return row[i] + f * (row[i + 1] - row[i]);
+      }
+    }
+    return row[0];
+  }
+
+  function currentT() {
+    var checked = document.querySelector('#timeseg input[name="t"]:checked');
+    return checked ? checked.value : "now";
+  }
+
+  function recompute() {
+    var brent = parseFloat(el("brent").value) || 70;
+    var price = parseFloat(el("price").value) || 0;
+    var t = currentT();
+
+    el("v-brent").textContent = brent.toFixed(0);
+
+    var nav = navAt(t, brent);
+    var upside = price > 0 ? (nav / price - 1) * 100 : 0;
+
+    el("out-value").textContent = nav.toFixed(0) + "p";
+    el("out-price").textContent = (price ? price.toFixed(1) : "—") + "p";
+    var up = el("out-upside");
+    up.textContent = (upside >= 0 ? "+" : "") + upside.toFixed(0) + "%";
+    up.className = "num " + (upside >= 0 ? "up" : "down");
+
+    var badge = el("verdict-badge");
+    badge.className = "badge";
+    var suffix = t === "now" ? "(at these assumptions)"
+                             : "(if the schedule holds)";
+    if (upside > 50) {
+      badge.textContent = "Really cheap " + suffix;
+    } else if (upside > 15) {
+      badge.textContent = "Cheap-ish " + suffix;
+    } else if (upside > -15) {
+      badge.textContent = "Roughly fairly priced " + suffix;
+      badge.classList.add("fair");
+    } else {
+      badge.textContent = "Not cheap " + suffix;
+      badge.classList.add("rich");
+    }
+
+    var bar = el("gapbar");
+    var hi = Math.max(price, nav, 1) * 1.1;
+    bar.style.setProperty("--price-pct", (price / hi * 100).toFixed(1) + "%");
+    bar.style.setProperty("--value-pct", (Math.max(nav, price) / hi * 100).toFixed(1) + "%");
+    bar.classList.toggle("negative", nav < price);
+    el("leg-price").textContent = (price ? price.toFixed(1) : "—") + "p";
+    el("leg-value").textContent = nav.toFixed(0) + "p";
+  }
+
+  function setBase() {
+    el("brent").value = BASE.brent;
+    el("price").value = BASE.price;
+    document.querySelector('#timeseg input[value="' + BASE.t + '"]').checked = true;
+    recompute();
+  }
+
+  el("brent").addEventListener("input", recompute);
+  el("price").addEventListener("input", recompute);
+  document.querySelectorAll('#timeseg input').forEach(function (r) {
+    r.addEventListener("change", recompute);
+  });
+  el("reset").addEventListener("click", setBase);
+
+  setBase();
+})();
+</script>
+
+</body>
+</html>
